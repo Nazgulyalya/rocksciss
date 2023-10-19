@@ -1,160 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>View Solidity Smart Contract</title>
-    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        select, input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #219f56;
+        }
+
+        #result {
+            font-size: 24px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        #history {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        #restart {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Smart Contract Viewer</h1>
-    <p>This is a simple viewer for a hosted Solidity smart contract.</p>
-
-    <h2>Contract Information</h2>
-    <p>Contract Address:0xd9145CCE52D386f254917e481eB44e9943F39138</p>
-    <p>Contract ABI: [
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "player",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "enum RockPaperScissors.Choices",
-				"name": "choice",
-				"type": "uint8"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "result",
-				"type": "string"
-			}
-		],
-		"name": "GameResult",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "choice",
-				"type": "uint256"
-			}
-		],
-		"name": "play",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "betAmount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "player1",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "player1Choice",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "player2",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "player2Choice",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "winner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]</p>
-
-    <h2>View Contract Data</h2>
-    <button onclick="viewContractData()">View Data</button>
-    <div id="contractData"></div>
+    <div class="container">
+        <h1>Rock, Paper, Scissors</h1>
+        <label for="choice">Choose your move:</label>
+        <select id="choice">
+            <option value="rock">Rock</option>
+            <option value="paper">Paper</option>
+            <option value="scissors">Scissors</option>
+        </select>
+        <label for="betAmount">Bet Amount (in Ether):</label>
+        <input type="text" id="betAmount" placeholder="Enter your bet amount">
+        <button onclick="playGame()" class="btn">Play</button>
+        <div id="result"></div>
+        <button id="restart" onclick="restartGame()" class="btn">Restart</button>
+        <div id="history"></div>
+    </div>
 
     <script>
+        // Import the Web3.js library
+        const Web3 = require('web3');
+
+        // Initialize Web3 with the provider
+        const web3 = new Web3(window.ethereum);
+
         const contractAddress = '0xd9145CCE52D386f254917e481eB44e9943F39138';
-        const contractABI = '[
+        const contractABI = [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -287,24 +238,57 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
+		"type": "function";
 	}
-]';
+]
 
-        const web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID'));
+        // Create a contract instance
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-        const contract = new web3.eth.Contract(JSON.parse(contractABI), contractAddress);
+        // Connect to MetaMask or another provider
+        async function connectWallet() {
+         try {
+              // Request user's permission to access their accounts
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const accounts = await web3.eth.getAccounts();
+                const userAccount = accounts[0];
+                console.log('Connected to account:', userAccount);
+                // Update the UI with the connected account
+         } catch (error) {
+                console.error('Failed to connect to the wallet:', error);
+         }
+    }
 
-        async function viewContractData() {
+    // Play the game by calling a function on the contract
+    async function playGame() {
+         const userChoice = document.getElementById('choice').value;
+         const betAmount = document.getElementById('betAmount').value;
+
         try {
-            const data = await contract.methods.getData().call();
-            document.getElementById('contractData').innerHTML = `Contract Data: ${data}`;
-            } catch (error) {
-            console.error('Error fetching contract data:', error);
-            document.getElementById('contractData').innerHTML = 'Error fetching contract data.';
-            }
+              // Call your contract's play function with the user's choice and bet amount
+            const result = await contract.methods.play(userChoice).send({
+                from: web3.eth.defaultAccount,
+                value: web3.utils.toWei(betAmount, 'ether'),
+            });
+
+            console.log('Game result:', result);
+            // Update the UI with the game result
+        } catch (error) {
+            console.error('Failed to play the game:', error);
         }
-        window.onload = viewContractData;
+    }
+
+    // Get game history from the contract
+    async function getGameHistory() {
+        try {
+            // Call your contract's getHistory function to fetch game results
+            const history = await contract.methods.getHistory().call();
+            console.log('Game history:', history);
+            // Update the UI with the game history
+        } catch (error) {
+            console.error('Failed to get game history:', error);
+        }
+    }
 
     </script>
 </body>
